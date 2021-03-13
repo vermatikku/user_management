@@ -150,18 +150,184 @@ class UserManagementViewSet(viewsets.ViewSet):
     def user_details_put():
         pass
     
-    @action(detail=True, methods=["GET"])
-    def user_meta_data(self,request,id=None):
-        user_all = UserAllData.objects.select_related('user_meta_data').get(pk=id)
-        umd = user_all.user_meta_data
-        sld = UserMetaDataSerializer(umd)
-        return Response(sld.data, status=200)
-        
-
+    
+    # get_user_details
     # user_personal_details
     # verification_details
     # profile_pic
     # basic_address
+    
+    # @action(detail=True, methods=["GET"])
+    def get_user_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_meta_data').get(pk=id)
+        umd = user_all.user_meta_data
+        sld = UserMetaDataSerializer(umd)
+        return Response(sld.data, status=200)
+
+    # @action(detail=True, methods=["PUT"])
+    def put_user_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_meta_data').get(pk=id)
+        umdpk = user_all.user_meta_data.pk
+        umd = UserMetaData.objects.get(pk=umdpk)
+        serializer = UserMetaDataSerializer(umd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # @action(detail=True, methods=["PATCH"])
+    def patch_user_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_meta_data').get(pk=id)
+        umdpk = user_all.user_meta_data.pk
+        umd = UserMetaData.objects.get(pk=umdpk)
+        serializer = UserMetaDataSerializer(umd, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# CodeByAlok===============================================================================
+      
+   # @action(detail=True, methods=["GET"])
+    def get_user_personal_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_personal_details').get(pk=id)
+        umd = user_all.user_personal_details
+        sld = UserPersonalDetailsSerializer(umd)
+        return Response(sld.data, status=200)
+
+     # @action(detail=True, methods=["PUT"])
+    def put_user_personal_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_personal_details').get(pk=id)
+        umdpk = user_all.user_personal_details.pk
+        umd = UserPersonalDetails.objects.get(pk=umdpk)
+        serializer = UserPersonalDetailsSerializer(umd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # @action(detail=True, methods=["PATCH"])
+    def patch_user_personal_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('user_personal_details').get(pk=id)
+        umdpk = user_all.user_personal_details.pk
+        umd = UserPersonalDetails.objects.get(pk=umdpk)
+        serializer = UserPersonalDetailsSerializer(umd, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#==========================================================================================
+
+   # @action(detail=True, methods=["GET"])
+    def get_verification_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('verification_details').get(pk=id)
+        umd = user_all.verification_details
+        sld = VerificationDetailsSerializer(umd)
+        return Response(sld.data, status=200)
+
+    # @action(detail=True, methods=["PUT"])
+    def put_verification_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('verification_details').get(pk=id)
+        umdpk = user_all.verification_details.pk
+        umd = VerificationDetails.objects.get(pk=umdpk)
+        serializer = VerificationDetailsSerializer(umd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # @action(detail=True, methods=["PATCH"])
+    def patch_verification_details(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('verification_details').get(pk=id)
+        umdpk = user_all.verification_details.pk
+        umd = VerificationDetails.objects.get(pk=umdpk)
+        serializer = VerificationDetailsSerializer(umd, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#==========================================================================================
+
+   # @action(detail=True, methods=["GET"])
+    def get_profile_pic(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('profile_pic').get(pk=id)
+        umd = user_all.profile_pic
+        sld = ProfilePicSerializer(umd)
+        return Response(sld.data,status=200)
+
+    # @action(detail=True, methods=["PUT"])
+    def put_profile_pic(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('profile_pic').get(pk=id)
+        umdpk = user_all.profile_pic.pk
+        umd = ProfilePic.objects.get(pk=umdpk)
+        serializer = ProfilePicSerializer(umd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # @action(detail=True, methods=["PATCH"])
+    def patch_profile_pic(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('profile_pic').get(pk=id)
+        umdpk = user_all.profile_pic.pk
+        umd = ProfilePic.objects.get(pk=umdpk)
+        serializer = ProfilePicSerializer(umd, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#==========================================================================================
+
+   # @action(detail=True, methods=["GET"])
+    def get_basic_address(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('basic_address').get(pk=id)
+        umd = user_all.basic_address
+        sld = BasicAddressSerializer(umd)
+        return Response(sld.data,status=200)
+
+    # @action(detail=True, methods=["PUT"])
+    def put_basic_address(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('basic_address').get(pk=id)
+        umdpk = user_all.basic_address.pk
+        umd = BasicAddress.objects.get(pk=umdpk)
+        serializer = BasicAddressSerializer(umd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # @action(detail=True, methods=["PATCH"])
+    def patch_basic_address(self,request,*args, **kwargs):
+        id = int(kwargs['id'])
+        user_all = UserAllData.objects.select_related('basic_address').get(pk=id)
+        umdpk = user_all.basic_address.pk
+        umd = BasicAddress.objects.get(pk=umdpk)
+        serializer = BasicAddressSerializer(umd, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+#======================END=================END================END=========================
 
     def list(self, request):
         user_all = UserAllData.objects.all().select_related()
@@ -196,6 +362,7 @@ class UserManagementViewSet(viewsets.ViewSet):
             return Response(serializer.data)
 
     def retrieve(self, request, id=None):
+        # print('some one called me ')
         user_all = UserAllData.objects.all().select_related()
         user_data = get_object_or_404(user_all,user__id=id)
         app_id = user_data.app.pk

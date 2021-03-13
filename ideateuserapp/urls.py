@@ -30,7 +30,13 @@ router.register('address', BasicAddressViewSet, basename='address')
 
 urlpatterns = router.urls + [
     path('admin/', admin.site.urls),
-    path('user/<int:id>/users/<int:target_id>/', UserManagementViewSet.as_view({"get": "user_details"}))
+    path('user/<int:id>/users/<int:target_id>/', UserManagementViewSet.as_view({"get": "user_details"})),
+    path('user/<int:id>/user_meta_data/', UserManagementViewSet.as_view(
+        {
+            "get": "get_user_details",
+            "put": "put_user_details",
+            "patch": "patch_user_details"
+        })),
     #reset password using mobile
     #reset password using mail
     #activate user by mobile otp
